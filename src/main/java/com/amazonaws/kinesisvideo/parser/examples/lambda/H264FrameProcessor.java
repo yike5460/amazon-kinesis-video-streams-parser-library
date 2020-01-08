@@ -166,7 +166,7 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
                 log.warn("Couldn't convert to a PNG", e);
             }
 
-            Regions clientRegion = Regions.AP_NORTHEAST_1;
+/*             Regions clientRegion = Regions.AP_NORTHEAST_1;
             String bucketName = "delete-me-jack";
             String stringObjKeyName = "frame-capture.png";
             String fileObjKeyName = "frame-capture.png";
@@ -197,6 +197,25 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
                 // Amazon S3 couldn't be contacted for a response, or the client
                 // couldn't parse the response from Amazon S3.
                 e.printStackTrace();
+            } */
+
+            String bucketName = "delete-me-jack";
+            String stringObjKeyName = "facialResult";
+
+            try {
+                AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+                        .withRegion(Regions.AP_NORTHEAST_1)
+                        .build();
+                String bucketPath = bucketName + "/facial" ;
+                s3Client.putObject(new PutObjectRequest(bucketPath, stringObjKeyName, new File("/tmp/frame-capture.png"))
+                        .withCannedAcl(CannedAccessControlList.PublicRead));
+                GeneratePresignedUrlRequest urlRequest = new GeneratePresignedUrlRequest(bucketName, stringObjKeyName);
+                URL url = s3Client.generatePresignedUrl(urlRequest);
+                return url.toString();
+            } catch (AmazonServiceException ase) {
+                ase.printStackTrace();
+            } catch (AmazonClientException ace) {
+                ace.printStackTrace();
             }
 
             // Encode to H264 frame
