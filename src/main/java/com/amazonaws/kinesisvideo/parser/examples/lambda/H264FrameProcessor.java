@@ -156,11 +156,11 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
 
             // Render frame with bounding box
             final BufferedImage compositeFrame = renderFrame(decodedFrame, rekognizedOutput);
-            // try {
-            //     ImageIO.write(compositeFrame, "png", new File(String.format("frame-capture-%s.png", UUID.randomUUID())));
-            //  } catch (IOException e) {
-            //     log.warn("Couldn't convert to a PNG", e);
-            // }
+            try {
+                ImageIO.write(compositeFrame, "png", new File(String.format("frame-capture-%s.png", UUID.randomUUID())));
+             } catch (IOException e) {
+                log.warn("Couldn't convert to a PNG", e);
+            }
 
             // Encode to H264 frame
             final EncodedFrame encodedH264Frame = encodeH264Frame(compositeFrame);
