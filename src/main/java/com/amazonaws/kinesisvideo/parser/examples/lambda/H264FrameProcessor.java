@@ -47,7 +47,7 @@ import java.util.UUID;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
-import com.amazonaws.AmazonClientException;;
+import com.amazonaws.AmazonClientException;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
@@ -218,7 +218,8 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
                         .withCannedAcl(CannedAccessControlList.PublicRead));
                 GeneratePresignedUrlRequest urlRequest = new GeneratePresignedUrlRequest(bucketName, stringObjKeyName);
                 URL url = s3Client.generatePresignedUrl(urlRequest);
-                return url.toString();
+                //return url.toString();
+                log.debug("pre-signed url : {}", url.toString());
             } catch (AmazonServiceException ase) {
                 ase.printStackTrace();
             } catch (AmazonClientException ace) {
