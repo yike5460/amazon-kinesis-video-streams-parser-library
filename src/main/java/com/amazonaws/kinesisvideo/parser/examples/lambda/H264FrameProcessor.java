@@ -51,6 +51,8 @@ import org.jcodec.scale.Yuv420jToRgb;
 import static org.jcodec.codecs.h264.H264Utils.splitMOVPacket;
 
 import javax.imageio.*;
+import java.io.File;
+import java.io.IOException;
 
 @Slf4j
 public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
