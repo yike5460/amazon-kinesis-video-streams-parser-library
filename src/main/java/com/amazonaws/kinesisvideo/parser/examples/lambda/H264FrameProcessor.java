@@ -224,6 +224,8 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
                 ase.printStackTrace();
             } catch (AmazonClientException ace) {
                 ace.printStackTrace();
+            } catch (SdkClientException se) {
+                se.printStackTrace();
             }
 
             // Encode to H264 frame
