@@ -123,11 +123,6 @@ public class FrameRendererVisitor extends CompositeMkvElementVisitor {
                     final Picture tmpBuf = Picture.createPicture(pixelWidth, pixelHeight, dataTemp, ColorSpace.YUV420J);
                     transform.transform(tmpBuf, rgb);
                     AWTUtil.toBufferedImage(rgb, renderImage);
-                    // try {
-                    //     ImageIO.write(renderImage, "png", new File(String.format("frame-capture-%s.png", UUID.randomUUID())));
-                    //  } catch (IOException e) {
-                    //     log.warn("Couldn't convert to a PNG", e);
-                    // }
                     kinesisVideoFrameViewer.update(renderImage);
                     frameCount++;
                 }

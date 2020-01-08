@@ -40,16 +40,6 @@ import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import org.jcodec.codecs.h264.H264Decoder;
-import org.jcodec.codecs.h264.mp4.AvcCBox;
-import org.jcodec.common.model.ColorSpace;
-import org.jcodec.common.model.Picture;
-import org.jcodec.scale.AWTUtil;
-import org.jcodec.scale.Transform;
-import org.jcodec.scale.Yuv420jToRgb;
-
-import static org.jcodec.codecs.h264.H264Utils.splitMOVPacket;
-
 import javax.imageio.*;
 import java.io.File;
 import java.io.IOException;
