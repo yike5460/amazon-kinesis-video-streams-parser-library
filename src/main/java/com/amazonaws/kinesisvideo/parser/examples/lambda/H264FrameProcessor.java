@@ -166,7 +166,7 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
                 log.warn("Couldn't convert to a PNG", e);
             }
 
-            Regions clientRegion = Regions.DEFAULT_REGION;
+            Regions clientRegion = Regions.AP_NORTHEAST_1;
             String bucketName = "delete-me-jack";
             String stringObjKeyName = "frame-capture.png";
             String fileObjKeyName = "frame-capture.png";
