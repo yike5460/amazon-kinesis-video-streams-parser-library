@@ -55,7 +55,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public final class KinesisVideoRekognitionLambdaExample implements RequestHandler<KinesisEvent, Context> {
-    private static final int NUM_RETRIES = 10;
+    private static final int NUM_RETRIES = 3;
     private static final int KCL_INIT_DELAY_MILLIS = 10_000;
     private final ExecutorService kdsWorkers = Executors.newFixedThreadPool(100);
     private final AWSCredentialsProvider credentialsProvider = new DefaultAWSCredentialsProviderChain();
