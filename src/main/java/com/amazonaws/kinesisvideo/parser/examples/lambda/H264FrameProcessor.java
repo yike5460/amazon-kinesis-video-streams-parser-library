@@ -219,13 +219,11 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
                 GeneratePresignedUrlRequest urlRequest = new GeneratePresignedUrlRequest(bucketName, stringObjKeyName);
                 URL url = s3Client.generatePresignedUrl(urlRequest);
                 //return url.toString();
-                log.debug("pre-signed url : {}", url.toString());
+                log.warn("pre-signed url : {}", url.toString());
             } catch (AmazonServiceException ase) {
                 ase.printStackTrace();
             } catch (AmazonClientException ace) {
                 ace.printStackTrace();
-            } catch (SdkClientException se) {
-                se.printStackTrace();
             }
 
             // Encode to H264 frame
