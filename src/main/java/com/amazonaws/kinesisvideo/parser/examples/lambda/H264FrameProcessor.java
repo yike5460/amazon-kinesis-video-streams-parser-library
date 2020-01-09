@@ -74,6 +74,7 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
     private KVSMediaSource KVSMediaSource;
     private boolean isKVSProducerInitialized = false;
     private boolean isEncoderInitialized = false;
+    private boolean isFacialFounded = false;
     private final AWSCredentialsProvider credentialsProvider;
     private final String outputKvsStreamName;
     @Setter
@@ -208,27 +209,27 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
 
             String bucketName = "delete-me-jack";
             String stringObjKeyName = "facialResult";
+            if (isFacialFounded) {
+                try {
+                    AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+                            .withRegion(Regions.AP_NORTHEAST_1)
+                            .build();
 
-            try {
-                AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                        .withRegion(Regions.AP_NORTHEAST_1)
-                        .build();
+                    s3Client.putObject(bucketName, stringObjKeyName, new File("/tmp/frame-capture.png"));
 
-                s3Client.putObject(bucketName, stringObjKeyName, new File("/tmp/frame-capture.png"));
-
-                String bucketPath = bucketName + "/facial" ;
-                s3Client.putObject(new PutObjectRequest(bucketName, stringObjKeyName, new File("/tmp/frame-capture.png"))
-                        .withCannedAcl(CannedAccessControlList.PublicRead));
-                GeneratePresignedUrlRequest urlRequest = new GeneratePresignedUrlRequest(bucketName, stringObjKeyName);
-                URL url = s3Client.generatePresignedUrl(urlRequest);
-                //return url.toString();
-                log.debug("pre-signed url : {}", url.toString());
-            } catch (AmazonServiceException ase) {
-                ase.printStackTrace();
-            } catch (AmazonClientException ace) {
-                ace.printStackTrace();
+                    String bucketPath = bucketName + "/facial" ;
+                    s3Client.putObject(new PutObjectRequest(bucketName, stringObjKeyName, new File("/tmp/frame-capture.png"))
+                            .withCannedAcl(CannedAccessControlList.PublicRead));
+                    GeneratePresignedUrlRequest urlRequest = new GeneratePresignedUrlRequest(bucketName, stringObjKeyName);
+                    URL url = s3Client.generatePresignedUrl(urlRequest);
+                    //return url.toString();
+                    log.debug("pre-signed url : {}", url.toString());
+                } catch (AmazonServiceException ase) {
+                    ase.printStackTrace();
+                } catch (AmazonClientException ace) {
+                    ace.printStackTrace();
+                }
             }
-
             /* bypass video encode to aviode computational resource consumption in lambda// Encode to H264 frame
             final EncodedFrame encodedH264Frame = encodeH264Frame(compositeFrame);
             encodedH264Frame.setTimeCode(fragmentMetadata.get().getProducerSideTimestampMillis() + frame.getTimeCode());
@@ -332,12 +333,15 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
             boundingBoxImagePanel.processRekognitionOutput(bufferedImage.createGraphics(), bufferedImage.getWidth(),
                     bufferedImage.getHeight(), rekognizedOutput.get());
             currentRekognizedOutput = rekognizedOutput.get();
+            isFacialFounded = true;
         } else if (currentRekognizedOutput != null) {
             log.debug("Rendering non-sampled frame with previous rekognized results...");
             boundingBoxImagePanel.processRekognitionOutput(bufferedImage.createGraphics(), bufferedImage.getWidth(),
                     bufferedImage.getHeight(), currentRekognizedOutput);
+            isFacialFounded = true;
         } else {
             log.debug("Rendering frame without any rekognized results...");
+            isFacialFounded = false;
         }
         return bufferedImage;
     }
