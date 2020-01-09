@@ -208,7 +208,7 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
             }*/
 
             String bucketName = "delete-me-jack";
-            String stringObjKeyName = "facialResult";
+            String stringObjKeyName = "faceSnapshot";
             if (isFacialFounded) {
                 try {
                     AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
@@ -217,7 +217,7 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
 
                     s3Client.putObject(bucketName, stringObjKeyName, new File("/tmp/frame-capture.png"));
 
-                    String bucketPath = bucketName + "/facial" ;
+                    //String bucketPath = bucketName + "/facial" ;
                     s3Client.putObject(new PutObjectRequest(bucketName, stringObjKeyName, new File("/tmp/frame-capture.png"))
                             .withCannedAcl(CannedAccessControlList.PublicRead));
                     GeneratePresignedUrlRequest urlRequest = new GeneratePresignedUrlRequest(bucketName, stringObjKeyName);
