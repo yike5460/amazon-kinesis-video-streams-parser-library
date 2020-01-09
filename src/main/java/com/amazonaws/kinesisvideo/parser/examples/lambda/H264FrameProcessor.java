@@ -214,7 +214,11 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
                     AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
                             .withRegion(Regions.AP_NORTHEAST_1)
                             .build();
-
+                    /*
+                    try to use InputStream to avoid S3 deny error
+                    (com.amazonaws.services.s3.model.AmazonS3Exception: Access Denied (Service: Amazon S3; Status Code: 403; Error Code: AccessDenied; ...)
+                    code like: InputStream is = file.getInputStream();
+                    */
                     s3Client.putObject(bucketName, stringObjKeyName, new File("/tmp/frame-capture.png"));
 
                     //String bucketPath = bucketName + "/facial" ;
