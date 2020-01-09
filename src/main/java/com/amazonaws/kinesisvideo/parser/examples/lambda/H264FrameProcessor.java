@@ -213,13 +213,16 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
                 AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
                         .withRegion(Regions.AP_NORTHEAST_1)
                         .build();
-                //String bucketPath = bucketName + "/facial" ;
+
+                s3Client.putObject(bucketName, stringObjKeyName, new File("/tmp/frame-capture.png"));
+
+                /*String bucketPath = bucketName + "/facial" ;
                 s3Client.putObject(new PutObjectRequest(bucketName, stringObjKeyName, new File("/tmp/frame-capture.png"))
                         .withCannedAcl(CannedAccessControlList.PublicRead));
                 GeneratePresignedUrlRequest urlRequest = new GeneratePresignedUrlRequest(bucketName, stringObjKeyName);
                 URL url = s3Client.generatePresignedUrl(urlRequest);
                 //return url.toString();
-                log.warn("pre-signed url : {}", url.toString());
+                log.debug("pre-signed url : {}", url.toString());*/
             } catch (AmazonServiceException ase) {
                 ase.printStackTrace();
             } catch (AmazonClientException ace) {
