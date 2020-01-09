@@ -173,7 +173,7 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
                 log.warn("Couldn't convert to a PNG", e);
             }
 
-            Regions clientRegion = Regions.AP_NORTHEAST_1;
+            /*Regions clientRegion = Regions.AP_NORTHEAST_1;
             String bucketName = "delete-me-jack";
             String stringObjKeyName = "frame-capture.png";
             String fileObjKeyName = "frame-capture.png";
@@ -204,9 +204,9 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
                 // Amazon S3 couldn't be contacted for a response, or the client
                 // couldn't parse the response from Amazon S3.
                 e.printStackTrace();
-            }
+            }*/
 
-            /*String bucketName = "delete-me-jack";
+            String bucketName = "delete-me-jack";
             String stringObjKeyName = "facialResult";
 
             try {
@@ -227,15 +227,15 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
                 ase.printStackTrace();
             } catch (AmazonClientException ace) {
                 ace.printStackTrace();
-            }*/
+            }
 
-            // Encode to H264 frame
+            /* bypass video encode to aviode computational resource consumption in lambda// Encode to H264 frame
             final EncodedFrame encodedH264Frame = encodeH264Frame(compositeFrame);
             encodedH264Frame.setTimeCode(fragmentMetadata.get().getProducerSideTimestampMillis() + frame.getTimeCode());
             log.debug("Encoded frame : {} with timecode : {}", frameNo, encodedH264Frame.getTimeCode());
 
             // Call PutFrame for processed encodedFrame.
-            putFrame(encodedH264Frame);
+            putFrame(encodedH264Frame);*/
             frameNo++;
 
         } else {
