@@ -153,7 +153,9 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
     @Override
     public void process(final Frame frame, final MkvTrackMetadata trackMetadata,
                         final Optional<FragmentMetadata> fragmentMetadata) throws FrameProcessException {
-        if (rekognizedOutputs != null) {
+        final double d = Math.random();
+        // Sample rate 1:100
+        if ((rekognizedOutputs != null) && (1 == (int) (d*100))) {
 
             checkState(fragmentMetadata.isPresent(), "FragmentMetadata should be present !");
 
@@ -169,10 +171,7 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
             final BufferedImage compositeFrame = renderFrame(decodedFrame, rekognizedOutput);
             try {
                 //ImageIO.write(compositeFrame, "png", new File(String.format("frame-capture-%s.png", UUID.randomUUID())));
-                final double d = Math.random();
-                if ( 1 == (int) (d*100) ) {
-                    ImageIO.write(compositeFrame, "png", new File("/tmp/frame-capture.png"));
-                }
+                ImageIO.write(compositeFrame, "png", new File("/tmp/frame-capture.png"));
              } catch (IOException e) {
                 log.warn("Couldn't convert to a PNG", e);
             }
