@@ -169,7 +169,10 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
             final BufferedImage compositeFrame = renderFrame(decodedFrame, rekognizedOutput);
             try {
                 //ImageIO.write(compositeFrame, "png", new File(String.format("frame-capture-%s.png", UUID.randomUUID())));
-                ImageIO.write(compositeFrame, "png", new File("/tmp/frame-capture.png"));
+                final double d = Math.random();
+                if ( 1 == (int) (d*100) ) {
+                    ImageIO.write(compositeFrame, "png", new File("/tmp/frame-capture.png"));
+                }
              } catch (IOException e) {
                 log.warn("Couldn't convert to a PNG", e);
             }
