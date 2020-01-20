@@ -59,6 +59,7 @@ import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.transfer.TransferManager;
 
 import java.net.URL;
+import java.util.Random;
 
 @Slf4j
 public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
