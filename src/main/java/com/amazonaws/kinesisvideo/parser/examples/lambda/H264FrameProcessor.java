@@ -153,9 +153,12 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
     @Override
     public void process(final Frame frame, final MkvTrackMetadata trackMetadata,
                         final Optional<FragmentMetadata> fragmentMetadata) throws FrameProcessException {
-        final double d = Math.random();
-        // Sample rate 1:100
-        if ((rekognizedOutputs != null) && (1 == (int) (d*100))) {
+
+        //final double d = Math.random();
+        Random r = new Random();
+        int d = r.nextInt(5);
+        // Sample rate 1:5
+        if ((rekognizedOutputs != null) && (1 == d)) {
 
             checkState(fragmentMetadata.isPresent(), "FragmentMetadata should be present !");
 
