@@ -4,6 +4,6 @@ Resources:
       Type: AWS::Lambda::Function
       Properties:
         Name: "ab-LambdaFunctionProcessingRekognitionResult-UYAQRVRO4DA7" # Specify the name of your Lambda function
-        Alias: "alpha" # Specify the alias for your Lambda function
+        Alias: "prod" # Specify the alias for your Lambda function
         CurrentVersion: "{{CurrentVersion}}" # Specify the current version of your Lambda function
         TargetVersion: "{{TargetVersion}}" # Specify the version of your Lambda function to deploy
