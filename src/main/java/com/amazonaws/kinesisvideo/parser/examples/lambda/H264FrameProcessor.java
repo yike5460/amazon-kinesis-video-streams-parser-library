@@ -58,8 +58,6 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.transfer.TransferManager;
 
-import jdk.internal.jline.internal.Log;
-
 import java.net.URL;
 import java.util.Random;
 
