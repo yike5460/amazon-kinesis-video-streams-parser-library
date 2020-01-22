@@ -225,18 +225,26 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
                     (com.amazonaws.services.s3.model.AmazonS3Exception: Access Denied (Service: Amazon S3; Status Code: 403; Error Code: AccessDenied; ...)
                     code like: InputStream is = file.getInputStream();
                     */
-                    s3Client.putObject(bucketName, stringObjKeyName, new File("/tmp/frame-capture.png"));
-
+                    //s3Client.putObject(bucketName, stringObjKeyName, new File("/tmp/frame-capture.png"));
                     //String bucketPath = bucketName + "/facial" ;
 
-                    PutObjectRequest request = new PutObjectRequest(bucketName, stringObjKeyName, new File("/tmp/frame-capture.png"))
-                            .withCannedAcl(CannedAccessControlList.PublicRead);
+                    PutObjectRequest request = new PutObjectRequest(bucketName, stringObjKeyName, new File("/tmp/frame-capture.png"));
+
+                    //pre-signed url
+                    java.util.Date expiration = new java.util.Date();
+                    long expTimeMillis = expiration.getTime();
+                    expTimeMillis += 1000 * 60 * 60;
+                    expiration.setTime(expTimeMillis);
                     GeneratePresignedUrlRequest urlRequest = new GeneratePresignedUrlRequest(bucketName, stringObjKeyName);
-                    URL url = s3Client.generatePresignedUrl(urlRequest);
+                    URL url = s3Client.generatePresignedUrl(urlRequest).withExpiration(expiration);
+                    log.info("pre-signed url : {}", url.toString());
+
+                    //set metadata
                     ObjectMetadata metadata = new ObjectMetadata();
                     metadata.setContentType("plain/image");
                     metadata.addUserMetadata("x-amz-meta-title", url.toString());
                     request.setMetadata(metadata);
+
                     s3Client.putObject(request);
 
                     /*original logic
