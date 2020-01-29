@@ -235,8 +235,8 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
                     long expTimeMillis = expiration.getTime();
                     expTimeMillis += 1000 * 60 * 60;
                     expiration.setTime(expTimeMillis);
-                    GeneratePresignedUrlRequest urlRequest = new GeneratePresignedUrlRequest(bucketName, stringObjKeyName);
-                    URL url = s3Client.generatePresignedUrl(urlRequest).withExpiration(expiration);
+                    GeneratePresignedUrlRequest urlRequest = new GeneratePresignedUrlRequest(bucketName, stringObjKeyName).withExpiration(expiration);
+                    URL url = s3Client.generatePresignedUrl(urlRequest);
                     log.info("pre-signed url : {}", url.toString());
 
                     //set metadata
