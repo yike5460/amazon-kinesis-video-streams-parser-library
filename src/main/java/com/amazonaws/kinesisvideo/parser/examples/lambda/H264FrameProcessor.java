@@ -157,7 +157,7 @@ public class H264FrameProcessor implements FrameVisitor.FrameProcessor {
 
         //final double d = Math.random();
         Random r = new Random();
-        int d = r.nextInt(5);
+        int d = r.nextInt(3);
         // Sample rate 1:5
         if ((rekognizedOutputs != null) && (1 == d)) {
 
